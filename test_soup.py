@@ -6,24 +6,22 @@ import os
 import sys
 from AlibabaConfig import *
 
-## the web page encode
-#encode = 'gb2312'
-## log file dir
-#logfile = r'D:\python_sth\sina\log.log'
-## download file dir
-#workdir = r'D:\python_sth\sina'
-#config = [
-#          {
-#           'url':'http://news.sina.com.cn/z/jsyczlswr/1.shtml',
-#           'selector':'span.title14 li a',
-#           'keywords':[],
-#           #'title':'css:span.title14 li a'
-#           },
-#           {
-#            'collapse':True,
-#            'selector':''
-#            }
-#          ]
+# the web page encode
+encode = 'gb2312'
+# log file dir
+logfile = r'D:\python_sth\sina\zijin\log.log'
+# download file dir
+workdir = r'D:\python_sth\sina\zijin'
+config = [
+          {
+           'url':'http://roll.news.sina.com.cn/s_zjkywr_all/1/index.shtml',
+           'selector':'div#d_list ul li span.c_tit a',
+           'keywords':[],
+           'collapse':True
+           #'title':'css:span.title14 li a'
+           },
+           {}
+          ]
 
 
 
@@ -150,7 +148,14 @@ def crawl_pages(map):
             else:
                 print '%s is already downloaded.' % (map.title)
         else:
-            save_page(map.url, os.path.join(map.dir, map.title + '.html'))
+            if not file_exist('%s\t%s' % (map.dir, map.url)):
+                if not os.path.exists(map.dir):
+                    os.mkdir(map.dir)
+                    print 'mkdir ', map.dir
+                save_page(map.url, os.path.join(map.dir, map.title + '.html'))
+                file(logfile, 'a').write(map.dir + '\t' + map.url + '\r\n')
+            else:
+                print '%s is already downloaded.' % (map.title)
     else:
         if not file_exist('%s\t%s' % (map.dir, map.url)):
             if not os.path.exists(map.dir):
@@ -242,4 +247,4 @@ if __name__ == '__main__':
     if not os.path.exists(logfile): file(logfile, 'w')
     map = create_crawl_hierarchy(config)
     print_mapLink(map, 0)
-#    crawl_pages(map)
+    crawl_pages(map)
