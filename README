@@ -1,0 +1,4 @@
+BeautifulSoup.py and soupselector.py is downloaded from the web.  
+BeautifulSoup is a famous html parser by python and soupselector is a good
+extenstion for BeautifulSoup which help us select a element by css selector. The
+core of this programe is crawler.py.
